@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { GoogleAuthProvider, signInWithPopup, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import { auth } from "../firebaseConfig";
 import "../index.css";
 
@@ -11,7 +12,7 @@ const Account: React.FC = () => {
   const [showNameModal, setShowNameModal] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [nameInput, setNameInput] = useState("");
-
+  const navigate = useNavigate();
   useEffect(() => {
     const savedUser = localStorage.getItem("user");
     const savedName = localStorage.getItem("customName");
@@ -145,14 +146,6 @@ const Account: React.FC = () => {
               />
               Google
             </button>
-            {/* <button className="discord-login-btn">
-                <img
-                    src="/assets/icons/ui/discord.png"
-                    alt="Discord Icon"
-                    className="icon"
-                />
-                Discord
-                </button> */}
           </div>
         </div>
       ) : (
@@ -169,6 +162,12 @@ const Account: React.FC = () => {
             {customName}
           </button>
           <div className={`auth-options ${showLogoutOptions ? "visible" : ""}`}>
+            <button
+              className="profile-btn"
+              onClick={() => navigate("/profile")}
+            >
+              Profile
+            </button>
             <button className="logout-btn" onClick={handleLogout}>
               Logout
             </button>
@@ -181,7 +180,6 @@ const Account: React.FC = () => {
           </div>
         </div>
       )}
-
       {showNameModal && (
         <div className="modal-overlay">
           <div className={`modal ${showNameModal ? "visible" : ""}`}>

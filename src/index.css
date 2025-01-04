@@ -356,14 +356,14 @@ button:active {
 .auth-options,
 .logout-options {
   position: absolute;
-  top: calc(100% + 5px);
+  top: calc(100% + 0px);
   left: 0;
   background: #1c1c1c;
   width: 100%;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
   overflow: hidden;
-  max-height: 0;
+  max-height: 100;
   opacity: 0;
   transform: translateY(-10px);
   transition: max-height 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
@@ -410,7 +410,6 @@ button:active {
   transform: translateY(0);
 }
 
-
 .google-login-btn,
 .discord-login-btn {
   margin: 10px;
@@ -424,6 +423,7 @@ button:active {
   gap: 10px;
   cursor: pointer;
   transition: transform 0.3s ease;
+  width: 88%;
 }
 
 .google-login-btn:hover,
@@ -437,33 +437,60 @@ button:active {
 }
 
 .logout-btn {
-  margin-top: 10px;
-  padding: 10px 20px;
+  margin: 10px;
+  padding: 10px;
   border: none;
   border-radius: 5px;
-  background-color: #f44336;
+  background-color: #514e4e;
   color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: transform 0.3s ease;
+  width: 88%;
 }
 
 .logout-btn:hover {
-  background-color: #d32f2f;
+  background-color: #363131;
 }
 
 .delete-btn {
-  margin-top: 10px;
-  padding: 10px 20px;
+  margin: 10px;
+  padding: 10px;
   border: none;
   border-radius: 5px;
   background-color: #d32f2f;
   color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  transition: transform 0.3s ease;
+  width: 88%;
 }
 
 .delete-btn:hover {
   background-color: #a30000;
+}
+
+.profile-btn {
+  margin: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  background-color: #514e4e;
+  color: white;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+  width: 88%;
+}
+
+.profile-btn:hover {
+  background-color: #322f2f;
 }
 
 .submit-btn {
