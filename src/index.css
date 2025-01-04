@@ -18,6 +18,8 @@ body {
   top: 30px; 
   left: 40px;
   z-index: 1000;
+  max-height: 600px;
+  overflow-y: auto;
 }
 
 .game-list-container {

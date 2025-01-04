@@ -45,7 +45,7 @@ const games: Game[] = [
     description: "Fast-paced multiplayer FPS game.",
     url: "https://krunker.io",
     thumbnail: "/assets/krunker-thumbnail.png",
-    genre: ["Shooter", "Action"],
+    genre: ["Shooter", "Action", "3D Games"],
     releaseDate: "2025-01-01",
   },
   {
@@ -99,7 +99,7 @@ const games: Game[] = [
     description: "Survival and pet taming game.",
     url: "https://bloxd.io/",
     thumbnail: "/assets/bloxd-thumbnail.png",
-    genre: ["Adventure", "Strategy", "Action", "Simulation"],
+    genre: ["Adventure", "Strategy", "Action", "Simulation", "3D Games"],
     releaseDate: "2025-02-01",
   },
   {
@@ -108,7 +108,7 @@ const games: Game[] = [
     description: "Survival and pet taming game.",
     url: "https://kour.io/",
     thumbnail: "/assets/kour-thumbnail.png",
-    genre: ["Shooter", "Action"],
+    genre: ["Shooter", "Action", "3D Games"],
     releaseDate: "2025-02-01",
   },
   {
@@ -117,7 +117,7 @@ const games: Game[] = [
     description: "A multiplayer obstacle course racing game inspired by Fall Guys.",
     url: "https://lolbeans.io/",
     thumbnail: "/assets/lolbeans-thumbnail.png",
-    genre: ["Race", "Casual"],
+    genre: ["Race", "Casual", "3D Games"],
     releaseDate: "2025-02-01",
   },
   {
@@ -144,7 +144,7 @@ const games: Game[] = [
     description: "A multiplayer shooter game with eggs as characters in a free-for-all mode.",
     url: "https://shellshock.io/",
     thumbnail: "/assets/shellshock-thumbnail.png",
-    genre: ["Shooter", "Action"],
+    genre: ["Shooter", "Action", "3D Games"],
     releaseDate: "2025-03-01",
   },
   {
@@ -155,6 +155,15 @@ const games: Game[] = [
     thumbnail: "/assets/copter-thumbnail.png",
     genre: ["Shooter", "Action"],
     releaseDate: "2025-02-01",
+  },
+  {
+    id: "1v1lol",
+    name: "1v1.LOL",
+    description: "FORTNITE IO",
+    url: "https://1v1.lol/",
+    thumbnail: "/assets/1v1lol-thumbnail.png",
+    genre: ["Shooter", "Action", "3D Games"],
+    releaseDate: "2025-04-01",
   },
   
 ];

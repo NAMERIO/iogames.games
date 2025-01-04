@@ -5,8 +5,10 @@ import Filters from "./Filters";
 
 const genresWithIcons = [
   { name: "Action", icon: "/assets/icons/geners/action.png" },
+  { name: "3D Games", icon: "/assets/icons/geners/3d.png" },
   { name: "Adventure", icon: "/assets/icons/geners/adventure.png" },
   { name: "Race", icon: "/assets/icons/geners/race.png" },
+  { name: "Minecarft", icon: "/assets/icons/geners/minecraft.png" },
   { name: "RPG", icon: "/assets/icons/geners/rpg.png" },
   { name: "Strategy", icon: "/assets/icons/geners/strategy.png" },
   { name: "Shooter", icon: "/assets/icons/geners/shooter.png" },
@@ -30,11 +32,9 @@ const GameList: React.FC = () => {
         : true
     )
     .sort((a, b) => {
-      // Ensure "hot" games are always at the top
       if (b.hot && !a.hot) return 1;
       if (a.hot && !b.hot) return -1;
 
-      // Apply additional sorting criteria
       if (sortOption === "alphabetical") {
         return a.name.localeCompare(b.name);
       } else if (sortOption === "date") {
