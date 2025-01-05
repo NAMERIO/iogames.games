@@ -500,14 +500,14 @@ button:active {
   padding: 10px 20px;
   border: none;
   border-radius: 5px;
-  background-color: #6200ea;
+  background-color: #ea0000;
   color: white;
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
 
 .submit-btn:hover {
-  background-color: #3700b3;
+  background-color: #b30000;
 }
 
 .cancel-btn {
@@ -524,6 +524,29 @@ button:active {
 .cancel-btn:hover {
   background-color: #333;
 }
+
+.error-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  background-color: red;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  z-index: 5000;
+  animation: slideDown 0.3s ease-in-out;
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
 
 ::-webkit-scrollbar {
   width: 12px;
