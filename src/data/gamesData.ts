@@ -163,7 +163,16 @@ const games: Game[] = [
     url: "https://1v1.lol/",
     thumbnail: "/assets/1v1lol-thumbnail.png",
     genre: ["Shooter", "Action", "3D Games"],
-    releaseDate: "2025-04-01",
+    releaseDate: "2025-03-01",
+  },
+  {
+    id: "bopz",
+    name: "Bopz.io",
+    description: "io game",
+    url: "https://bopz.io/",
+    thumbnail: "/assets/bopz-thumbnail.png",
+    genre: ["Shooter", "Action"],
+    releaseDate: "2025-05-01",
   },
   
 ];
