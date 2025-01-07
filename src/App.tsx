@@ -4,11 +4,13 @@ import GameList from "./components/GameList";
 import GameDetails from "./components/GameDetails";
 import Account from "./components/Account";
 import Profile from "./components/Profile";
+import CursorTracker from "./components/CursorTracker";
 import "./index.css";
 
 const App: React.FC = () => {
   return (
     <Router>
+      <CursorTracker />
       <Account />
       <Routes>
         <Route path="/" element={<GameList />} />

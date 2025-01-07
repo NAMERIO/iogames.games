@@ -4,6 +4,7 @@ body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
+  cursor: url('/public/assets/icons/ui/custom-cursor.png'),  auto;
 }
 
 .genre-sidebar {
@@ -48,7 +49,7 @@ body {
   margin-bottom: 10px;
   padding: 10px;
   border-radius: 8px;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
   transition: background-color 0.3s;
 }
 
@@ -113,7 +114,7 @@ button {
   color: white;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
   transition: background-color 0.3s;
 }
 
@@ -200,7 +201,7 @@ button:active {
   right: 40px;
   width: 40px;
   height: 40px;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
   transition: transform 0.3s ease;
 }
 
@@ -214,7 +215,7 @@ button:active {
   left: -350px;
   width: 40px;
   height: 40px;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
   transition: transform 0.2s ease;
 }
 
@@ -248,7 +249,7 @@ button:active {
   color: rgb(48, 48, 48);
   border: none;
   border-radius: 10px;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
   transition: background-color 0.3s;
 }
 
@@ -284,7 +285,7 @@ button:active {
   right: 10px;
   width: 20px;
   height: 20px;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
 }
 
 .share-link {
@@ -309,7 +310,7 @@ button:active {
   color: white;
   border: none;
   border-radius: 5px;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
   transition: background-color 0.3s;
 }
 
@@ -328,10 +329,10 @@ button:active {
   padding: 10px;
   display: flex;
   flex-direction: column;
-  align-items: flex-end; /* Align items to the right */
+  align-items: flex-end;
   position: relative;
-  width: fit-content; /* Make the container width adjust to the content */
-  margin-left: auto; /* Push the container to the right */
+  width: fit-content;
+  margin-left: auto;
 }
 
 .auth-wrapper {
@@ -345,7 +346,7 @@ button:active {
   border-radius: 5px;
   background-color: #1c1c1c;
   color: white;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
   display: flex;
   align-items: center;
   gap: 10px;
@@ -428,7 +429,7 @@ button:active {
   display: flex;
   align-items: center;
   gap: 10px;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
   transition: transform 0.3s ease;
   width: 88%;
 }
@@ -453,7 +454,7 @@ button:active {
   display: flex;
   align-items: center;
   gap: 10px;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
   transition: transform 0.3s ease;
   width: 88%;
 }
@@ -472,7 +473,7 @@ button:active {
   display: flex;
   align-items: center;
   gap: 10px;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
   transition: transform 0.3s ease;
   width: 88%;
 }
@@ -491,7 +492,7 @@ button:active {
   display: flex;
   align-items: center;
   gap: 10px;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
   transition: transform 0.3s ease;
   width: 88%;
 }
@@ -507,7 +508,7 @@ button:active {
   border-radius: 5px;
   background-color: #ea0000;
   color: white;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
   transition: background-color 0.3s ease;
 }
 
@@ -522,7 +523,7 @@ button:active {
   border-radius: 5px;
   background-color: #555;
   color: white;
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;;
   transition: background-color 0.3s ease;
 }
 
@@ -552,7 +553,6 @@ button:active {
   }
 }
 
-
 ::-webkit-scrollbar {
   width: 12px;
 }
@@ -570,5 +570,5 @@ button:active {
 
 ::-webkit-scrollbar-thumb:hover {
   background: linear-gradient(45deg, #3700b3, #4e10df);
-  cursor: pointer;
+  cursor: url('/public/assets/icons/ui/mouse-pointer.png'),  auto;
 }
