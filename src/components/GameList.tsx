@@ -8,7 +8,7 @@ const genresWithIcons = [
   { name: "3D Games", icon: "/assets/icons/geners/3d.png" },
   { name: "Adventure", icon: "/assets/icons/geners/adventure.png" },
   { name: "Race", icon: "/assets/icons/geners/race.png" },
-  { name: "Minecarft", icon: "/assets/icons/geners/minecraft.png" },
+  { name: "Minecraft", icon: "/assets/icons/geners/minecraft.png" },
   { name: "RPG", icon: "/assets/icons/geners/rpg.png" },
   { name: "Strategy", icon: "/assets/icons/geners/strategy.png" },
   { name: "Shooter", icon: "/assets/icons/geners/shooter.png" },

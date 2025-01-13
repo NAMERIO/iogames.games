@@ -174,7 +174,51 @@ const games: Game[] = [
     genre: ["Shooter", "Action"],
     releaseDate: "2025-05-01",
   },
-  
+  {
+    id: "evoworld",
+    name: "EvoWorld.io",
+    description: "io game",
+    url: "https://evoworld.io/",
+    thumbnail: "/assets/evoworld-thumbnail.png",
+    genre: ["Action"],
+    releaseDate: "2025-12-01",
+  },  
+  {
+    id: "florr",
+    name: "Florr.io",
+    description: "io game",
+    url: "https://florr.io/",
+    thumbnail: "/assets/florr-thumbnail.png",
+    genre: ["Action", "Strategy"],
+    releaseDate: "2025-12-01",
+  },  
+  {
+    id: "gats",
+    name: "Gats.io",
+    description: "io game",
+    url: "https://gats.io/",
+    thumbnail: "/assets/gats-thumbnail.png",
+    genre: ["Action", "Strategy", "Shooter"],
+    releaseDate: "2025-12-01",
+  },  
+  {
+    id: "mope",
+    name: "Mope.io",
+    description: "io game",
+    url: "https://mope.io/",
+    thumbnail: "/assets/mope-thumbnail.png",
+    genre: ["Action", "Strategy", "Shooter"],
+    releaseDate: "2025-12-01",
+  },  
+  {
+    id: "moomoo",
+    name: "MooMoo.io",
+    description: "io game",
+    url: "https://moomoo.io/",
+    thumbnail: "/assets/moomoo-thumbnail.png",
+    genre: ["Action", "Strategy"],
+    releaseDate: "2025-12-01",
+  },  
 ];
 
 
