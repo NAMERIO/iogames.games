@@ -563,6 +563,83 @@ button:active {
   }
 }
 
+.pagination {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin: 20px 0;
+}
+
+.pagination button {
+  background-color: #6a0dad;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.pagination button.active {
+  background-color: #5500cc;
+}
+
+.pagination button:hover {
+  background-color: #5500cc;
+}
+
+.pagination button:active {
+  background-color: #3a0077;
+  transform: scale(0.95);
+}
+
+.pagination button:disabled {
+  background-color: #ccc;
+  color: #666;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+footer {
+  background-color: #282c34;
+  color: white;
+  text-align: center;
+  padding: 20px 0;
+  margin-top: 20px;
+}
+
+footer .container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+footer .section {
+  flex: 1;
+  padding: 10px;
+  min-width: 200px;
+}
+
+footer a {
+  color: #6a0dad;
+  text-decoration: none;
+}
+
+footer p {
+  margin: 5px 0;
+}
+
+footer .copyright {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #aaa;
+}
+
+
 ::-webkit-scrollbar {
   width: 12px;
 }

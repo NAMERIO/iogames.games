@@ -17,10 +17,13 @@ const genresWithIcons = [
   { name: "Puzzle", icon: "/assets/icons/geners/puzzle.png" },
 ];
 
+const ITEMS_PER_PAGE = 18;
+
 const GameList: React.FC = () => {
   const [selectedGenre, setSelectedGenre] = useState<string>("");
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [sortOption, setSortOption] = useState<string>("date");
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
   const filteredGames = games
     .filter((game) =>
@@ -44,7 +47,24 @@ const GameList: React.FC = () => {
       }
       return 0;
     });
+  const totalPages = Math.ceil(filteredGames.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const currentGames = filteredGames.slice(
+    startIndex,
+    startIndex + ITEMS_PER_PAGE
+  );
 
+  const handlePageChange = (page: number, scrollToTop: boolean = false) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+      if (scrollToTop) {
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth",
+        });
+      }
+    }
+  };
   return (
     <div>
       <h1 className="page-title">.io Games</h1>
@@ -57,7 +77,10 @@ const GameList: React.FC = () => {
               <li
                 key={genre.name}
                 className={selectedGenre === genre.name ? "active" : ""}
-                onClick={() => setSelectedGenre(genre.name)}
+                onClick={() => {
+                  setSelectedGenre(genre.name);
+                  setCurrentPage(1);
+                }}
               >
                 <img src={genre.icon} alt={`${genre.name} icon`} />
                 {genre.name}
@@ -65,7 +88,10 @@ const GameList: React.FC = () => {
             ))}
             <li
               className={!selectedGenre ? "active" : ""}
-              onClick={() => setSelectedGenre("")}
+              onClick={() => {
+                setSelectedGenre("");
+                setCurrentPage(1);
+              }}
             >
               <img src="/assets/icons/geners/all.png" alt="All genres icon" />
               All Games
@@ -78,14 +104,43 @@ const GameList: React.FC = () => {
             selectedGenre={selectedGenre}
             searchQuery={searchQuery}
             sortOption={sortOption}
-            onGenreChange={setSelectedGenre}
-            onSearchChange={setSearchQuery}
+            onGenreChange={(genre) => {
+              setSelectedGenre(genre);
+              setCurrentPage(1);
+            }}
+            onSearchChange={(query) => {
+              setSearchQuery(query);
+              setCurrentPage(1);
+            }}
             onSortChange={setSortOption}
           />
           <div className="game-list">
-            {filteredGames.map((game) => (
+            {currentGames.map((game) => (
               <GameCard key={game.id} game={game} />
             ))}
+          </div>
+          <div className="pagination">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => handlePageChange(currentPage - 1, false)}
+            >
+              Previous
+            </button>
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+              <button
+                key={page}
+                className={currentPage === page ? "active" : ""}
+                onClick={() => handlePageChange(page, false)}
+              >
+                {page}
+              </button>
+            ))}
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => handlePageChange(currentPage + 1, true)}
+            >
+              Next
+            </button>
           </div>
         </div>
       </div>

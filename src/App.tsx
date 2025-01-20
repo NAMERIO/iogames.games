@@ -6,6 +6,7 @@ import Account from "./components/Account";
 import Profile from "./components/Profile";
 import Background from "./components/Background";
 import CursorTracker from "./components/CursorTracker";
+import Footer from "./components/Footer"; // Import Footer
 import "./index.css";
 
 const App: React.FC = () => {
@@ -19,6 +20,7 @@ const App: React.FC = () => {
         <Route path="/games/:id" element={<GameDetails />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
+      <Footer />
     </Router>
   );
 };
