@@ -639,6 +639,17 @@ footer .copyright {
   color: #aaa;
 }
 
+.game-description {
+  max-width: 800px;
+  width: 90%;
+  margin-top: 20px;
+  margin-left: 15px;
+  padding: 15px;
+  background: #1c1c1c;
+  border-radius: 8px;
+  overflow-y: auto;
+  max-height: 200px;
+}
 
 ::-webkit-scrollbar {
   width: 12px;

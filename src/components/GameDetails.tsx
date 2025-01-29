@@ -70,6 +70,9 @@ const GameDetails: React.FC = () => {
               Share
             </button>
           </div>
+          <div className="game-description">
+            <p>{game.description}</p>
+          </div>
         </div>
       </div>
       {showShareCard && (

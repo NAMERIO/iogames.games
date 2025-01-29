@@ -13,7 +13,7 @@ const games: Game[] = [
   {
     id: "survev",
     name: "Survev.io",
-    description: "Battle Royale game in 2D.",
+    description: "Survev.io is an open source recreation of a hit web game surviv.io that has been permanently shut down.",
     url: "https://survev.io",
     thumbnail: "/assets/survev-thumbnail.png",
     genre: ["Shooter", "Action"],
@@ -67,7 +67,7 @@ const games: Game[] = [
     releaseDate: "2025-01-01",
   },
   {
-    id: "zomieroyal",
+    id: "zombsroyale",
     name: "Zombsroyale.io",
     description: "Battle Royale game with zombie themes.",
     url: "https://zombsroyale.io/",
@@ -99,7 +99,7 @@ const games: Game[] = [
     description: "Survival and pet taming game.",
     url: "https://bloxd.io/",
     thumbnail: "/assets/bloxd-thumbnail.png",
-    genre: ["Adventure", "Strategy", "Action", "Simulation", "3D Games"],
+    genre: ["Adventure", "Strategy", "Action", "Simulation", "3D Games", "Minecraft"],
     releaseDate: "2025-02-01",
   },
   {
