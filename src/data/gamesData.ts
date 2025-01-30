@@ -81,7 +81,7 @@ const games: Game[] = [
     description: "Survival and pet taming game.",
     url: "https://taming.io/",
     thumbnail: "/assets/taming-thumbnail.png",
-    genre: ["Simulation","Strategy", "Action"],
+    genre: ["Strategy", "Action"],
     releaseDate: "2025-01-01",
   },
   {
@@ -99,7 +99,7 @@ const games: Game[] = [
     description: "Survival and pet taming game.",
     url: "https://bloxd.io/",
     thumbnail: "/assets/bloxd-thumbnail.png",
-    genre: ["Adventure", "Strategy", "Action", "Simulation", "3D Games", "Minecraft"],
+    genre: ["Adventure", "Strategy", "Action", "3D Games", "Minecraft"],
     releaseDate: "2025-02-01",
   },
   {
@@ -135,7 +135,7 @@ const games: Game[] = [
     description: "A survival and mining game where players dig to grow larger and avoid enemies.",
     url: "https://digdig.io/",
     thumbnail: "/assets/digdig-thumbnail.png",
-    genre: ["Simulation", "Casual"],
+    genre: ["Casual"],
     releaseDate: "2025-02-01",
   },
   {

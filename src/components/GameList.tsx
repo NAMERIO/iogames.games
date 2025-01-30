@@ -9,12 +9,12 @@ const genresWithIcons = [
   { name: "Adventure", icon: "/assets/icons/geners/adventure.png" },
   { name: "Race", icon: "/assets/icons/geners/race.png" },
   { name: "Minecraft", icon: "/assets/icons/geners/minecraft.png" },
-  { name: "RPG", icon: "/assets/icons/geners/rpg.png" },
+  // { name: "RPG", icon: "/assets/icons/geners/rpg.png" },
   { name: "Strategy", icon: "/assets/icons/geners/strategy.png" },
   { name: "Shooter", icon: "/assets/icons/geners/shooter.png" },
   { name: "Casual", icon: "/assets/icons/geners/casual.png" },
-  { name: "Simulation", icon: "/assets/icons/geners/simulation.png" },
-  { name: "Puzzle", icon: "/assets/icons/geners/puzzle.png" },
+  // { name: "Simulation", icon: "/assets/icons/geners/simulation.png" },
+  // { name: "Puzzle", icon: "/assets/icons/geners/puzzle.png" },
 ];
 
 const ITEMS_PER_PAGE = 18;
