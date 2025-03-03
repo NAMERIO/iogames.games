@@ -74,15 +74,6 @@ const UserMenu: React.FC<UserMenuProps> = ({ onAuthClick }) => {
             </Link>
             
             <Link
-              to="/achievements"
-              className="block px-4 py-2 text-gray-200 hover:bg-gray-700 flex items-center transition-colors"
-              onClick={() => setIsOpen(false)}
-            >
-              <Award className="h-4 w-4 mr-3 text-yellow-400" />
-              <span>Achievements</span>
-            </Link>
-            
-            <Link
               to="/notifications"
               className="block px-4 py-2 text-gray-200 hover:bg-gray-700 flex items-center transition-colors"
               onClick={() => setIsOpen(false)}
