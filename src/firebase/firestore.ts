@@ -12,10 +12,12 @@ import {
   deleteDoc, 
   increment, 
   serverTimestamp,
-  onSnapshot 
+  onSnapshot,
+  setDoc
 } from 'firebase/firestore';
 import { db } from './config';
 import { UserProfile, Achievement, RecentlyPlayed, Game } from '../types';
+
 export const getUserProfile = async (userId: string): Promise<UserProfile | null> => {
   try {
     const profileDoc = await getDoc(doc(db, 'profiles', userId));
@@ -79,7 +81,6 @@ export const updatePlayTime = async (userId: string, gameId: string, playTime: n
       totalPlayTime: increment(playTime)
     });
     await checkPlayTimeAchievements(userId, profile.totalPlayTime + playTime);
-    
   } catch (error) {
     console.error('Error updating play time:', error);
     throw error;
@@ -95,9 +96,19 @@ export const likeGame = async (userId: string, gameId: string): Promise<void> =>
       userId,
       createdAt: serverTimestamp()
     });
-    await updateDoc(doc(db, 'games', gameId), {
-      likes: increment(1)
-    });
+    const gameDocRef = doc(db, 'games', gameId);
+    const gameDoc = await getDoc(gameDocRef);
+    
+    if (gameDoc.exists()) {
+      await updateDoc(gameDocRef, {
+        likes: increment(1)
+      });
+    } else {
+      await setDoc(gameDocRef, {
+        id: gameId,
+        likes: 1
+      });
+    }
   } catch (error) {
     console.error('Error liking game:', error);
     throw error;
@@ -114,13 +125,22 @@ export const unlikeGame = async (userId: string, gameId: string): Promise<void> 
       where('gameId', '==', gameId),
       where('userId', '==', userId)
     );
+    
     const querySnapshot = await getDocs(likesQuery);
     querySnapshot.forEach(async (document) => {
       await deleteDoc(doc(db, 'likes', document.id));
     });
-    await updateDoc(doc(db, 'games', gameId), {
-      likes: increment(-1)
-    });
+    
+    // Decrement game likes count
+    const gameDocRef = doc(db, 'games', gameId);
+    const gameDoc = await getDoc(gameDocRef);
+    
+    if (gameDoc.exists()) {
+      const currentLikes = gameDoc.data().likes || 0;
+      await updateDoc(gameDocRef, {
+        likes: Math.max(0, currentLikes - 1) 
+      });
+    }
   } catch (error) {
     console.error('Error unliking game:', error);
     throw error;
@@ -133,7 +153,7 @@ export const isGameLiked = async (userId: string, gameId: string): Promise<boole
     if (!profileDoc.exists()) return false;
     
     const profile = profileDoc.data() as UserProfile;
-    return profile.likedGames.includes(gameId);
+    return profile.likedGames?.includes(gameId) || false;
   } catch (error) {
     console.error('Error checking if game is liked:', error);
     return false;
@@ -142,8 +162,15 @@ export const isGameLiked = async (userId: string, gameId: string): Promise<boole
 
 export const getGameLikes = async (gameId: string): Promise<number> => {
   try {
-    const gameDoc = await getDoc(doc(db, 'games', gameId));
-    if (!gameDoc.exists()) return 0;
+    const gameDocRef = doc(db, 'games', gameId);
+    const gameDoc = await getDoc(gameDocRef);
+    if (!gameDoc.exists()) {
+      await setDoc(gameDocRef, {
+        id: gameId,
+        likes: 0
+      });
+      return 0;
+    }
     
     return gameDoc.data().likes || 0;
   } catch (error) {
@@ -152,14 +179,35 @@ export const getGameLikes = async (gameId: string): Promise<number> => {
   }
 };
 export const subscribeToGameLikes = (gameId: string, callback: (likes: number) => void) => {
-  const gameRef = doc(db, 'games', gameId);
-  return onSnapshot(gameRef, (doc) => {
+  const ensureGameDocument = async () => {
+    try {
+      const gameDocRef = doc(db, 'games', gameId);
+      const gameDoc = await getDoc(gameDocRef);
+      
+      if (!gameDoc.exists()) {
+        await setDoc(gameDocRef, {
+          id: gameId,
+          likes: 0
+        });
+      }
+    } catch (error) {
+      console.error('Error ensuring game document exists:', error);
+    }
+  };
+  
+  ensureGameDocument();
+  const gameDocRef = doc(db, 'games', gameId);
+  return onSnapshot(gameDocRef, (doc) => {
     if (doc.exists()) {
       const likes = doc.data().likes || 0;
       callback(likes);
+    } else {
+      callback(0);
+      ensureGameDocument();
     }
   }, (error) => {
     console.error('Error subscribing to game likes:', error);
+    callback(0);
   });
 };
 export const checkPlayTimeAchievements = async (userId: string, totalPlayTime: number): Promise<void> => {

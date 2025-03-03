@@ -29,11 +29,14 @@ const GameCard: React.FC<GameCardProps> = ({ game, onLike, index }) => {
   useEffect(() => {
     const checkIfLiked = async () => {
       if (user) {
-        const gameIsLiked = await isGameLiked(user.uid, game.id);
-        setLiked(gameIsLiked);
+        try {
+          const gameIsLiked = await isGameLiked(user.uid, game.id);
+          setLiked(gameIsLiked);
+        } catch (error) {
+          console.error('Error checking if game is liked:', error);
+        }
       }
     };
-
     checkIfLiked();
   }, [user, game.id]);
 
@@ -54,7 +57,6 @@ const GameCard: React.FC<GameCardProps> = ({ game, onLike, index }) => {
     if (currentElement) {
       observer.observe(currentElement);
     }
-
     return () => {
       unsubscribe();
       if (currentElement) {
@@ -62,17 +64,17 @@ const GameCard: React.FC<GameCardProps> = ({ game, onLike, index }) => {
       }
     };
   }, [game.id]);
-
   const handleLikeClick = async (e: React.MouseEvent) => {
     e.preventDefault();
     if (!user) return;
     try {
       if (liked) {
         await unlikeGame(user.uid, game.id);
+        setLiked(false);
       } else {
         await likeGame(user.uid, game.id);
+        setLiked(true);
       }
-      setLiked(!liked);
       onLike(game.id, !liked);
     } catch (error) {
       console.error('Error toggling like:', error);
@@ -108,7 +110,6 @@ const GameCard: React.FC<GameCardProps> = ({ game, onLike, index }) => {
               {popularityLabel}
             </div>
           )}
-          
           <div className={`absolute inset-0 bg-indigo-600 opacity-0 transition-opacity duration-300 ${isHovered ? 'opacity-20' : ''}`}></div>
           <img
             src={game.thumbnail}
@@ -127,7 +128,6 @@ const GameCard: React.FC<GameCardProps> = ({ game, onLike, index }) => {
             <h3 className="text-base font-bold text-white mb-1 hover:text-indigo-400 transition-colors line-clamp-1">{game.name}</h3>
           </Link>
           <p className="text-gray-300 text-xs mb-1.5 line-clamp-2">{game.description}</p>
-          
           <div className="flex flex-wrap gap-1 mb-1.5">
             {game.genre.slice(0, 2).map((g) => (
               <span
@@ -138,7 +138,6 @@ const GameCard: React.FC<GameCardProps> = ({ game, onLike, index }) => {
               </span>
             ))}
           </div>
-          
           <div className="flex items-center justify-between mt-auto">
             <div className="flex items-center">
               {[1, 2, 3, 4, 5].map((star) => (
@@ -149,7 +148,6 @@ const GameCard: React.FC<GameCardProps> = ({ game, onLike, index }) => {
               ))}
               <span className="text-xs text-gray-400 ml-1">{likesCount}</span>
             </div>
-            
             <div className="flex items-center space-x-2">
               <button
                 onClick={handleLikeClick}
@@ -171,14 +169,12 @@ const GameCard: React.FC<GameCardProps> = ({ game, onLike, index }) => {
               </button>
             </div>
           </div>
-          
           <div className="text-xs text-gray-400 flex items-center mt-1">
             <Clock className="h-3 w-3 mr-1" />
             {formattedDate}
           </div>
         </div>
       </div>
-      
       <ShareModal
         isOpen={shareModalOpen}
         onClose={() => setShareModalOpen(false)}

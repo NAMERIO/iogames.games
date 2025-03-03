@@ -4,7 +4,7 @@ import { getGameById } from '../data/games';
 import { Game } from '../types';
 import { Heart, Maximize, Minimize, Home, Calendar, ThumbsUp, Share, Star, Github, ExternalLink, Info, Award, Clock, Users } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
-import { likeGame, unlikeGame, isGameLiked, updatePlayTime, subscribeToGameLikes } from '../firebase/firestore';
+import { likeGame, unlikeGame, isGameLiked, updatePlayTime, subscribeToGameLikes, getGameLikes } from '../firebase/firestore';
 import ShareModal from '../components/ShareModal';
 import AuthModal from '../components/AuthModal';
 import Footer from '../components/Footer';
@@ -31,7 +31,17 @@ const GamePage: React.FC = () => {
       const gameData = getGameById(id);
       if (gameData) {
         setGame(gameData);
-        setLikesCount(gameData.likes || 0);
+        const fetchLikes = async () => {
+          try {
+            const likes = await getGameLikes(id);
+            setLikesCount(likes);
+          } catch (error) {
+            console.error('Error fetching likes:', error);
+            setLikesCount(gameData.likes || 0);
+          }
+        };
+        
+        fetchLikes();
         setTimeout(() => {
           setIsLoading(false);
         }, 1000);
@@ -44,11 +54,16 @@ const GamePage: React.FC = () => {
   useEffect(() => {
     const checkIfLiked = async () => {
       if (user && game) {
-        const gameIsLiked = await isGameLiked(user.uid, game.id);
-        setIsLiked(gameIsLiked);
+        try {
+          const gameIsLiked = await isGameLiked(user.uid, game.id);
+          setIsLiked(gameIsLiked);
+        } catch (error) {
+          console.error('Error checking if game is liked:', error);
+        }
+      } else {
+        setIsLiked(false);
       }
     };
-
     checkIfLiked();
   }, [user, game]);
 
@@ -122,11 +137,11 @@ const GamePage: React.FC = () => {
     try {
       if (isLiked) {
         await unlikeGame(user.uid, game.id);
+        setIsLiked(false);
       } else {
         await likeGame(user.uid, game.id);
+        setIsLiked(true);
       }
-      
-      setIsLiked(!isLiked);
     } catch (error) {
       console.error('Error toggling like:', error);
     }
