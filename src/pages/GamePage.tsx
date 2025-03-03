@@ -63,7 +63,6 @@ const GamePage: React.FC = () => {
   }, [game]);
   useEffect(() => {
     if (!user || !game) return;
-
     const trackInterval = setInterval(() => {
       const now = Date.now();
       const elapsed = now - lastUpdateRef.current;
@@ -74,7 +73,6 @@ const GamePage: React.FC = () => {
           playTimeRef.current = 0;
         }
       }
-      
       lastUpdateRef.current = now;
     }, 5000);
 
@@ -85,6 +83,17 @@ const GamePage: React.FC = () => {
       }
     };
   }, [user, game]);
+  useEffect(() => {
+    if (isFullscreen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'auto';
+    }
+    
+    return () => {
+      document.body.style.overflow = 'auto';
+    };
+  }, [isFullscreen]);
 
   const isElementInViewport = (el: HTMLElement | null) => {
     if (!el) return false;
@@ -154,7 +163,6 @@ const GamePage: React.FC = () => {
       </div>
     );
   }
-
   const formattedDate = new Date(game.releaseDate).toLocaleDateString('en-US', {
     year: 'numeric',
     month: 'long',
@@ -176,6 +184,28 @@ const GamePage: React.FC = () => {
                  game.id === "krunker" ? "2M+" : "100K+"
   };
 
+  if (isFullscreen) {
+    return (
+      <div className="fixed inset-0 z-50 bg-black">
+        <div className="absolute top-4 right-4 z-10 flex space-x-2">
+          <button
+            onClick={handleFullscreenToggle}
+            className="p-2 bg-gray-800 bg-opacity-70 rounded-full hover:bg-opacity-100 transition-all"
+          >
+            <Minimize className="h-5 w-5 text-white" />
+          </button>
+        </div>
+        <iframe
+          ref={gameFrameRef}
+          src={game.url}
+          title={game.name}
+          className="w-full h-full border-0"
+          allowFullScreen
+        ></iframe>
+      </div>
+    );
+  }
+
   return (
     <>
       <div 
@@ -187,50 +217,43 @@ const GamePage: React.FC = () => {
           backgroundAttachment: 'fixed'
         }}
       >
-        <div className={`container mx-auto p-4 ${isFullscreen ? 'pt-0' : 'pt-8'}`}>
-          {!isFullscreen && (
-            <div className="mb-6 flex justify-between items-center animate-slide-in-right">
-              <Link to="/" className="flex items-center text-indigo-400 hover:text-indigo-300 btn-hover-effect px-4 py-2 rounded-lg">
-                <Home className="h-5 w-5 mr-2" />
-                <span>Back to Games</span>
-              </Link>
-              <div className="flex items-center space-x-4">
-                <div className="flex items-center text-gray-300 glass-effect px-3 py-1 rounded-full">
-                  <Calendar className="h-5 w-5 mr-1" />
-                  <span>{formattedDate}</span>
-                </div>
-                <button
-                  onClick={handleLike}
-                  className={`flex items-center transition-colors glass-effect px-3 py-1 rounded-full ${
-                    isLiked ? 'text-red-500' : 'text-gray-300 hover:text-red-500'
-                  }`}
-                >
-                  <Heart className={`h-5 w-5 mr-1 ${isLiked ? 'fill-current animate-pulse-slow' : ''}`} />
-                  <span>{likesCount}</span>
-                </button>
-                <button
-                  onClick={handleShare}
-                  className="flex items-center text-gray-300 hover:text-indigo-400 transition-colors glass-effect px-3 py-1 rounded-full"
-                >
-                  <Share className="h-5 w-5" />
-                </button>
+        <div className="container mx-auto p-4 pt-8">
+          <div className="mb-6 flex justify-between items-center animate-slide-in-right">
+            <Link to="/" className="flex items-center text-indigo-400 hover:text-indigo-300 btn-hover-effect px-4 py-2 rounded-lg">
+              <Home className="h-5 w-5 mr-2" />
+              <span>Back to Games</span>
+            </Link>
+            <div className="flex items-center space-x-4">
+              <div className="flex items-center text-gray-300 glass-effect px-3 py-1 rounded-full">
+                <Calendar className="h-5 w-5 mr-1" />
+                <span>{formattedDate}</span>
               </div>
+              <button
+                onClick={handleLike}
+                className={`flex items-center transition-colors glass-effect px-3 py-1 rounded-full ${
+                  isLiked ? 'text-red-500' : 'text-gray-300 hover:text-red-500'
+                }`}
+              >
+                <Heart className={`h-5 w-5 mr-1 ${isLiked ? 'fill-current animate-pulse-slow' : ''}`} />
+                <span>{likesCount}</span>
+              </button>
+              <button
+                onClick={handleShare}
+                className="flex items-center text-gray-300 hover:text-indigo-400 transition-colors glass-effect px-3 py-1 rounded-full"
+              >
+                <Share className="h-5 w-5" />
+              </button>
             </div>
-          )}
-
+          </div>
           <div className="flex flex-col lg:flex-row gap-6">
-            <div className={`lg:w-3/4 bg-gray-900 rounded-lg overflow-hidden shadow-xl animate-slide-in-up ${isFullscreen ? 'fixed inset-0 z-50' : 'game-frame-border'}`}>
+            <div className="lg:w-3/4 bg-gray-900 rounded-lg overflow-hidden shadow-xl animate-slide-in-up game-frame-border">
               <div className="relative">
                 <div className="absolute top-4 right-4 z-10 flex space-x-2">
                   <button
                     onClick={handleFullscreenToggle}
                     className="p-2 bg-gray-800 bg-opacity-70 rounded-full hover:bg-opacity-100 transition-all"
                   >
-                    {isFullscreen ? (
-                      <Minimize className="h-5 w-5 text-white" />
-                    ) : (
-                      <Maximize className="h-5 w-5 text-white" />
-                    )}
+                    <Maximize className="h-5 w-5 text-white" />
                   </button>
                 </div>
                 <div className="relative">
@@ -247,7 +270,7 @@ const GamePage: React.FC = () => {
                     ref={gameFrameRef}
                     src={game.url}
                     title={game.name}
-                    className={`w-full ${isFullscreen ? 'h-screen' : 'h-[70vh]'}`}
+                    className="w-full h-[70vh]"
                     allowFullScreen
                     onLoad={() => {
                       const overlay = document.getElementById('loadingOverlay');
@@ -256,166 +279,162 @@ const GamePage: React.FC = () => {
                   ></iframe>
                 </div>
               </div>
-              {!isFullscreen && (
-                <div className="p-6 glass-effect">
-                  <h1 className="text-3xl font-bold mb-2 gradient-text">{game.name}</h1>
-                  
-                  <div className="flex flex-wrap gap-2 mb-4">
-                    {game.genre.map((g) => (
-                      <span
-                        key={g}
-                        className="px-3 py-1 text-sm bg-indigo-900 text-indigo-200 rounded-full hover:bg-indigo-800 transition-colors animate-float"
-                        style={{ animationDelay: `${Math.random() * 2}s` }}
-                      >
-                        {g}
-                      </span>
-                    ))}
-                  </div>
-                  <div className="flex items-center mb-4">
-                    {[1, 2, 3, 4, 5].map((star) => (
-                      <Star 
-                        key={star} 
-                        className={`h-5 w-5 ${star <= Math.ceil(likesCount / 100) ? 'text-yellow-400 fill-current' : 'text-gray-600'}`} 
-                      />
-                    ))}
-                    <span className="ml-2 text-gray-400 text-sm">Based on player likes</span>
-                  </div>
-                  <p className="text-gray-300 mb-6">{game.description}</p>
-                  
-                  <div className="flex items-center justify-center space-x-4">
-                    <button
-                      onClick={handleLike}
-                      className={`flex items-center px-4 py-2 rounded-lg transition-colors btn-hover-effect ${
-                        isLiked
-                          ? 'bg-red-900 text-red-200'
-                          : 'bg-gray-800 text-gray-200 hover:bg-red-900 hover:text-red-200'
-                      }`}
+              <div className="p-6 glass-effect">
+                <h1 className="text-3xl font-bold mb-2 gradient-text">{game.name}</h1>
+                <div className="flex flex-wrap gap-2 mb-4">
+                  {game.genre.map((g) => (
+                    <span
+                      key={g}
+                      className="px-3 py-1 text-sm bg-indigo-900 text-indigo-200 rounded-full hover:bg-indigo-800 transition-colors animate-float"
+                      style={{ animationDelay: `${Math.random() * 2}s` }}
                     >
-                      <ThumbsUp className="h-5 w-5 mr-2" />
-                      <span>{isLiked ? 'Liked!' : 'Like this game'}</span>
-                    </button>
-                    <button
-                      onClick={handleShare}
-                      className="flex items-center px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors btn-hover-effect"
-                    >
-                      <Share className="h-5 w-5 mr-2" />
-                      <span>Share</span>
-                    </button>
-                  </div>
-                  <div className="mt-10 border-t border-gray-700 pt-6">
-                    <h2 className="text-xl font-bold mb-4 gradient-text flex items-center">
-                      <Info className="h-5 w-5 mr-2" />
-                      Game Information
-                    </h2>      
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div className="bg-gray-800 rounded-lg p-4 animate-slide-in-up stagger-1">
-                        <h3 className="font-semibold mb-3 text-indigo-300">About {game.name}</h3>
-                        <ul className="space-y-2">
-                          <li className="flex items-start">
-                            <span className="text-gray-400 mr-2 mt-1">•</span>
-                            <span>Released in {gameInfo.releaseYear} by {gameInfo.developer.name}</span>
-                          </li>
-                          <li className="flex items-start">
-                            <span className="text-gray-400 mr-2 mt-1">•</span>
-                            <span>Approximately {gameInfo.playerCount} monthly active players</span>
-                          </li>
-                          <li className="flex items-start">
-                            <span className="text-gray-400 mr-2 mt-1">•</span>
-                            <span>One of the most popular games in the {game.genre[0]} category</span>
-                          </li>
-                        </ul>
-                      </div>
-                      <div className="bg-gray-800 rounded-lg p-4 animate-slide-in-up stagger-2">
-                        <h3 className="font-semibold mb-3 text-indigo-300">Links & Resources</h3>
-                        <ul className="space-y-2">
+                      {g}
+                    </span>
+                  ))}
+                </div>
+                <div className="flex items-center mb-4">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Star 
+                      key={star} 
+                      className={`h-5 w-5 ${star <= Math.ceil(likesCount / 100) ? 'text-yellow-400 fill-current' : 'text-gray-600'}`} 
+                    />
+                  ))}
+                  <span className="ml-2 text-gray-400 text-sm">Based on player likes</span>
+                </div>
+                <p className="text-gray-300 mb-6">{game.description}</p>
+                <div className="flex items-center justify-center space-x-4">
+                  <button
+                    onClick={handleLike}
+                    className={`flex items-center px-4 py-2 rounded-lg transition-colors btn-hover-effect ${
+                      isLiked
+                        ? 'bg-red-900 text-red-200'
+                        : 'bg-gray-800 text-gray-200 hover:bg-red-900 hover:text-red-200'
+                    }`}
+                  >
+                    <ThumbsUp className="h-5 w-5 mr-2" />
+                    <span>{isLiked ? 'Liked!' : 'Like this game'}</span>
+                  </button>
+                  <button
+                    onClick={handleShare}
+                    className="flex items-center px-4 py-2 rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors btn-hover-effect"
+                  >
+                    <Share className="h-5 w-5 mr-2" />
+                    <span>Share</span>
+                  </button>
+                </div>
+                <div className="mt-10 border-t border-gray-700 pt-6">
+                  <h2 className="text-xl font-bold mb-4 gradient-text flex items-center">
+                    <Info className="h-5 w-5 mr-2" />
+                    Game Information
+                  </h2>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="bg-gray-800 rounded-lg p-4 animate-slide-in-up stagger-1">
+                      <h3 className="font-semibold mb-3 text-indigo-300">About {game.name}</h3>
+                      <ul className="space-y-2">
+                        <li className="flex items-start">
+                          <span className="text-gray-400 mr-2 mt-1">•</span>
+                          <span>Released in {gameInfo.releaseYear} by {gameInfo.developer.name}</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="text-gray-400 mr-2 mt-1">•</span>
+                          <span>Approximately {gameInfo.playerCount} monthly active players</span>
+                        </li>
+                        <li className="flex items-start">
+                          <span className="text-gray-400 mr-2 mt-1">•</span>
+                          <span>One of the most popular games in the {game.genre[0]} category</span>
+                        </li>
+                      </ul>
+                    </div>
+                    <div className="bg-gray-800 rounded-lg p-4 animate-slide-in-up stagger-2">
+                      <h3 className="font-semibold mb-3 text-indigo-300">Links & Resources</h3>
+                      <ul className="space-y-2">
+                        <li className="flex items-center">
+                          <ExternalLink className="h-4 w-4 text-indigo-400 mr-2" />
+                          <a 
+                            href={gameInfo.website} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            className="text-indigo-300 hover:text-indigo-200 transition-colors"
+                          >
+                            Official Website
+                          </a>
+                        </li>
+                        {gameInfo.github && (
                           <li className="flex items-center">
-                            <ExternalLink className="h-4 w-4 text-indigo-400 mr-2" />
+                            <Github className="h-4 w-4 text-indigo-400 mr-2" />
                             <a 
-                              href={gameInfo.website} 
+                              href={gameInfo.github} 
                               target="_blank" 
                               rel="noopener noreferrer"
                               className="text-indigo-300 hover:text-indigo-200 transition-colors"
                             >
-                              Official Website
+                              GitHub Repository
                             </a>
                           </li>
-                          {gameInfo.github && (
-                            <li className="flex items-center">
-                              <Github className="h-4 w-4 text-indigo-400 mr-2" />
-                              <a 
-                                href={gameInfo.github} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="text-indigo-300 hover:text-indigo-200 transition-colors"
-                              >
-                                GitHub Repository
-                              </a>
-                            </li>
+                        )}
+                        {gameInfo.developer.url && (
+                          <li className="flex items-center">
+                            <Info className="h-4 w-4 text-indigo-400 mr-2" />
+                            <a 
+                              href={gameInfo.developer.url} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-indigo-300 hover:text-indigo-200 transition-colors"
+                            >
+                              Developer Information
+                            </a>
+                          </li>
+                        )}
+                      </ul>
+                    </div>
+                  </div>
+                  <div className="mt-6 bg-gray-800 rounded-lg p-4 animate-slide-in-up stagger-3">
+                    <h3 className="font-semibold mb-3 text-indigo-300">How to Play</h3>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <h4 className="font-medium text-white mb-2">Controls:</h4>
+                        <ul className="space-y-1 text-sm">
+                          {game.id === "survev" && (
+                            <>
+                              <li>• WASD or Arrow Keys: Move your character</li>
+                              <li>• Left Mouse Button: Shoot</li>
+                              <li>• Right Mouse Button: Use scope/aim</li>
+                              <li>• R: Reload weapon</li>
+                              <li>• F: Interact with objects</li>
+                              <li>• 1-5: Switch weapons</li>
+                            </>
                           )}
-                          {gameInfo.developer.url && (
-                            <li className="flex items-center">
-                              <Info className="h-4 w-4 text-indigo-400 mr-2" />
-                              <a 
-                                href={gameInfo.developer.url} 
-                                target="_blank" 
-                                rel="noopener noreferrer"
-                                className="text-indigo-300 hover:text-indigo-200 transition-colors"
-                              >
-                                Developer Information
-                              </a>
-                            </li>
+                          {game.id === "slither" && (
+                            <>
+                              <li>• Mouse Movement: Control direction</li>
+                              <li>• Left Mouse Button: Speed boost</li>
+                            </>
+                          )}
+                          {game.id === "agar" && (
+                            <>
+                              <li>• Mouse Movement: Control direction</li>
+                              <li>• Space: Split your cell</li>
+                              <li>• W: Eject mass</li>
+                            </>
+                          )}
+                          {!["survev", "slither", "agar"].includes(game.id) && (
+                            <>
+                              <li>• Mouse Movement: Control direction</li>
+                              <li>• Left Mouse Button: Primary action</li>
+                              <li>• WASD or Arrow Keys: Move your character</li>
+                            </>
                           )}
                         </ul>
                       </div>
-                    </div>
-                    <div className="mt-6 bg-gray-800 rounded-lg p-4 animate-slide-in-up stagger-3">
-                      <h3 className="font-semibold mb-3 text-indigo-300">How to Play</h3>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                          <h4 className="font-medium text-white mb-2">Controls:</h4>
-                          <ul className="space-y-1 text-sm">
-                            {game.id === "survev" && (
-                              <>
-                                <li>• WASD or Arrow Keys: Move your character</li>
-                                <li>• Left Mouse Button: Shoot</li>
-                                <li>• Right Mouse Button: Use scope/aim</li>
-                                <li>• R: Reload weapon</li>
-                                <li>• F: Interact with objects</li>
-                                <li>• 1-5: Switch weapons</li>
-                              </>
-                            )}
-                            {game.id === "slither" && (
-                              <>
-                                <li>• Mouse Movement: Control direction</li>
-                                <li>• Left Mouse Button: Speed boost</li>
-                              </>
-                            )}
-                            {game.id === "agar" && (
-                              <>
-                                <li>• Mouse Movement: Control direction</li>
-                                <li>• Space: Split your cell</li>
-                                <li>• W: Eject mass</li>
-                              </>
-                            )}
-                            {!["survev", "slither", "agar"].includes(game.id) && (
-                              <>
-                                <li>• Mouse Movement: Control direction</li>
-                                <li>• Left Mouse Button: Primary action</li>
-                                <li>• WASD or Arrow Keys: Move your character</li>
-                              </>
-                            )}
-                          </ul>
-                        </div>
-                        <div>
-                          <h4 className="font-medium text-white mb-2">Objective:</h4>
-                          <p className="text-sm">
-                            {game.id === "survev" && "Survive as the last player standing. Collect weapons, ammo, and equipment while avoiding the shrinking play zone."}
-                            {game.id === "slither" && "Grow your snake by consuming glowing orbs. Eliminate other players by making them run into your body."}
-                            {game.id === "agar" && "Grow your cell by consuming smaller cells and food. Split to catch other players and avoid being eaten by larger cells."}
-                            {game.id === "krunker" && "Eliminate other players in fast-paced first-person combat. Earn points and level up to unlock new weapons and abilities."}
-                            {!["survev", "slither", "agar", "krunker"].includes(game.id) && "Compete against other players to achieve the highest score. Each game has unique mechanics and strategies to master."}
-                          </p>
-                        </div>
+                      <div>
+                        <h4 className="font-medium text-white mb-2">Objective:</h4>
+                        <p className="text-sm">
+                          {game.id === "survev" && "Survive as the last player standing. Collect weapons, ammo, and equipment while avoiding the shrinking play zone."}
+                          {game.id === "slither" && "Grow your snake by consuming glowing orbs. Eliminate other players by making them run into your body."}
+                          {game.id === "agar" && "Grow your cell by consuming smaller cells and food. Split to catch other players and avoid being eaten by larger cells."}
+                          {game.id === "krunker" && "Eliminate other players in fast-paced first-person combat. Earn points and level up to unlock new weapons and abilities."}
+                          {!["survev", "slither", "agar", "krunker"].includes(game.id) && "Compete against other players to achieve the highest score. Each game has unique mechanics and strategies to master."}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -438,28 +457,23 @@ const GamePage: React.FC = () => {
                   </div>
                   <GameRecommendations currentGameId={game.id} genres={game.genre} />
                 </div>
-              )}
+              </div>
             </div>
-            {!isFullscreen && (
-              <div className="lg:w-1/4 space-y-6">
-                <div className="relative">
-                  <div className="sticky top-8">
-                    <AdBanner format="large-skyscraper" />
-                    <div className="mt-6">
-                      <AdBanner format="rectangle" />
-                    </div>
+            <div className="lg:w-1/4 space-y-6">
+              <div className="relative">
+                <div className="sticky top-8">
+                  <AdBanner format="large-skyscraper" />
+                  <div className="mt-6">
+                    <AdBanner format="rectangle" />
                   </div>
                 </div>
               </div>
-            )}
-          </div>
-          {!isFullscreen && (
-            <div className="mt-12 flex justify-center">
-              <AdBanner format="horizontal" />
             </div>
-          )}
-          
-          {!isFullscreen && <Footer />}
+          </div>
+          <div className="mt-12 flex justify-center">
+            <AdBanner format="horizontal" />
+          </div>
+          <Footer />
         </div>
       </div>
       <ShareModal
