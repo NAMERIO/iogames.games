@@ -12,6 +12,16 @@ export const games: Game[] = [
     likes: 0
   },
   {
+    id: "resurviv",
+    name: "Resurviv.biz",
+    description: "resurviv.biz is an open source recreation of a hit web game surviv.io that has been permanently shut down with a little bit twist.",
+    url: "https://survev.io",
+    thumbnail: "/assets/survev-thumbnail.png",
+    genre: ["Shooter", "Action"],
+    releaseDate: "2025-09-04",
+    likes: 0
+  },
+  {
     id: "battledudes",
     name: "BattleDudes.io",
     description: "Multiplayer tactical shooter.",
