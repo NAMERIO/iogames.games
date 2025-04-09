@@ -15,8 +15,8 @@ export const games: Game[] = [
     id: "resurviv",
     name: "Resurviv.biz",
     description: "resurviv.biz is an open source recreation of a hit web game surviv.io that has been permanently shut down with a little bit twist.",
-    url: "https://survev.io",
-    thumbnail: "/assets/survev-thumbnail.png",
+    url: "https://resurviv.biz",
+    thumbnail: "/assets/resurvev-thumbnail.png",
     genre: ["Shooter", "Action"],
     releaseDate: "2025-09-04",
     likes: 0
